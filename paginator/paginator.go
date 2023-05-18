@@ -9,18 +9,18 @@ type Page struct {
 	Items       []any
 }
 
-func (p *Page) GetNext() (int, error) {
+func (p *Page) GetNext() int {
 	if p.HasNext {
-		return p.Index + 1, nil
+		return p.Index + 1
 	}
-	return -1, errors.New("Index out of paginator limits")
+	return -1
 }
 
-func (p *Page) GetPrevious() (int, error) {
+func (p *Page) GetPrevious() int {
 	if p.HasPrevious {
-		return p.Index - 1, nil
+		return p.Index - 1
 	}
-	return -1, errors.New("Index out of paginator limits")
+	return -1
 }
 
 type Paginator struct {
@@ -28,11 +28,11 @@ type Paginator struct {
 	PageSize int
 }
 
-func NewPaginator(items []any, size int) (*Paginator, error) {
+func NewPaginator(items []any, size int) *Paginator {
 	return &Paginator{
 		Items:    items,
 		PageSize: size,
-	}, nil
+	}
 }
 
 func (pg *Paginator) GetPage(index int) (*Page, error) {
