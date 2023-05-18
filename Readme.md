@@ -6,11 +6,82 @@
 
 ## Instalation
 
-Write this command in your shell placed in your project folder
+Write this command in your shell, placed in your project folder
 
 ``` bash
     go get github.com/ramoneitor439/paginator
 ```
+
+## Attributes
+
+
+
+## Paginator
+
+---
+#### Items:
+```
+    Returns the list of items the paginator will paginate
+```
+#### PageSize:
+```
+    Returns the ammount of elements that every page will contain
+```
+#### Length:
+```
+    Returns the ammount of pages in the paginator
+```
+#### FirstIndex:
+```
+    Returns the index of the first page in the paginator
+```
+#### LastIndex:
+```
+    Returns the last page in the paginator
+```
+## Page
+
+---
+#### Index:
+```
+    Returns the index of the current page
+```
+#### HasNext:
+```
+    Returns true if exists another page after current
+```
+#### HasPrevious:
+```
+    Returns true if exists another page before current
+```
+#### Items:
+```
+    Returns the list of items in the current page
+```
+---
+
+## Methods
+```go
+paginator.NewPaginator[type](data []any, pageSize int) *Paginator[type] // Create the paginator 
+```
+## Paginator
+
+---
+```go
+GetPage(index int) *Page[type] // Creates a index based page 
+```
+
+## Page
+
+---
+```go
+GetNext() int // returns index of next page; returns -1 if does not exist
+```
+```go
+GetPrevious() int // returns index of previous page; returns -1 if does not exist
+```
+
+
 
 ## Usage
 

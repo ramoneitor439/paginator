@@ -24,15 +24,31 @@ func (p *Page[T]) GetPrevious() int {
 }
 
 type Paginator[T any] struct {
-	Items    []T
-	PageSize int
+	Items      []T
+	PageSize   int
+	Length     int
+	FirstIndex int
+	LastIndex  int
 }
 
 func NewPaginator[T any](items []T, size int) *Paginator[T] {
-	return &Paginator[T]{
-		Items:    items,
-		PageSize: size,
+	var pg Paginator[T]
+	childs := len(items) / size
+	haveOrphans := (len(items) % size) > 0
+
+	pg.Length = childs
+	if haveOrphans {
+		pg.Length += 1
 	}
+
+	if pg.Length > 0 {
+		pg.FirstIndex = 1
+	}
+	pg.LastIndex = pg.Length
+	pg.Items = items
+	pg.PageSize = size
+
+	return &pg
 }
 
 func (pg *Paginator[T]) GetPage(index int) (*Page[T], error) {
@@ -53,7 +69,7 @@ func (pg *Paginator[T]) GetPage(index int) (*Page[T], error) {
 		HasPrevious: false,
 		Items:       pg.Items[startIndex:endIndex],
 	}
-	if len(pg.Items) > endIndex+1 {
+	if len(pg.Items) >= endIndex+1 {
 		result.HasNext = true
 	}
 	if index > 1 {
