@@ -2,40 +2,40 @@ package paginator
 
 import "errors"
 
-type Page struct {
+type Page[T any] struct {
 	Index       int
 	HasPrevious bool
 	HasNext     bool
-	Items       []any
+	Items       []T
 }
 
-func (p *Page) GetNext() int {
+func (p *Page[T]) GetNext() int {
 	if p.HasNext {
 		return p.Index + 1
 	}
 	return -1
 }
 
-func (p *Page) GetPrevious() int {
+func (p *Page[T]) GetPrevious() int {
 	if p.HasPrevious {
 		return p.Index - 1
 	}
 	return -1
 }
 
-type Paginator struct {
-	Items    []any
+type Paginator[T any] struct {
+	Items    []T
 	PageSize int
 }
 
-func NewPaginator(items []any, size int) *Paginator {
-	return &Paginator{
+func NewPaginator[T any](items []T, size int) *Paginator[T] {
+	return &Paginator[T]{
 		Items:    items,
 		PageSize: size,
 	}
 }
 
-func (pg *Paginator) GetPage(index int) (*Page, error) {
+func (pg *Paginator[T]) GetPage(index int) (*Page[T], error) {
 	endIndex := index * pg.PageSize
 	startIndex := endIndex - pg.PageSize
 
@@ -47,7 +47,7 @@ func (pg *Paginator) GetPage(index int) (*Page, error) {
 		endIndex = len(pg.Items)
 	}
 
-	result := Page{
+	result := Page[T]{
 		Index:       index,
 		HasNext:     false,
 		HasPrevious: false,
