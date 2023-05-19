@@ -35,5 +35,6 @@ Write this command in your shell
         
         page.Items // returns an []any with all page elements
         
+        return page // returns the page for using in your response
     }
 ```
